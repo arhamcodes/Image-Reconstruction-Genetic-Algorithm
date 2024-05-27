@@ -1,4 +1,4 @@
-# Project Title
+# Image Reconstruction using Genetic Algorithm 
 
 This project requires Python's Tkinter library for GUI creation.
 
@@ -11,7 +11,8 @@ sudo apt-get install python3-tk
 
 
 ```
-git clone https://github.com/arhamcodes/Image-Reconstruction-Genetic-Algorithm.git
+git clone <https://github.com/arhamcodes/Image-Reconstruction-Genetic-Algorithm.git>
+
 ```
 cd Image-Reconstruction-Genetic-Algorithm
 
