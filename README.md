@@ -10,8 +10,7 @@ Make sure you have Python's Tkinter installed. If not, you can install it using 
 sudo apt-get install python3-tk
 
 
-```
-git clone <https://github.com/arhamcodes/Image-Reconstruction-Genetic-Algorithm.git>
+git clone https://github.com/arhamcodes/Image-Reconstruction-Genetic-Algorithm.git
 
 ```
 cd Image-Reconstruction-Genetic-Algorithm
