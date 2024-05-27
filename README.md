@@ -12,12 +12,13 @@ sudo apt-get install python3-tk
 
 ```
 git clone https://github.com/arhamcodes/Image-Reconstruction-Genetic-Algorithm.git
+```
 cd Image-Reconstruction-Genetic-Algorithm
 
-```bash
+```
 python3 -m venv venv
 
-```bash
+```
 source venv/bin/activate
 
 ```
