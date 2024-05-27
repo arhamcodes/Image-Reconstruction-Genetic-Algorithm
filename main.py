@@ -1,42 +1,78 @@
-import numpy as np
+import tkinter as tk
+from tkinter import ttk, filedialog
+from PIL import Image, ImageTk
 import cv2
+from GeneticAlgorithm import genetic_algorithm as genetic_algorithm
 
-#def fitness_fun(solution, solution_idx):
-#   fitness = np.sum(np.abs(target_chromosome-solution))
-#   fitness = np.sum(target_chromosome) - fitness
-#   return fitness
+class ImageApp:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Image Preview with Genetic Algorithm")
+        self.root.configure(bg='#f0f0f0')
 
-def Fitness(chromosome, target):
-    fitness = np.mean(np.abs(chromosome-target))
-    return fitness
+        self.root.geometry("536x465")
 
-def Crossover(chrom1, chrom2):
-    point = np.random.randint(0, len(chrom1))
-    new_chrom1 = np.concatenate((chrom1[:point], chrom2[point:]))
-    new_chrom2 = np.concatenate((chrom2[:point], chrom1[point:]))
-    return new_chrom1, new_chrom2
+        self.style = ttk.Style()
+        self.style.configure('TButton', font=('Helvetica', 12), padding=10, background='#4CAF50', foreground='white')
+        self.style.configure('TLabel', font=('Helvetica', 12), background='#f0f0f0')
+        self.style.configure('TFrame', background='#f0f0f0')
 
-def Mutation(chromosome, mutation_rate):
-    for i in range(len(chromosome)):
-        if np.random.rand() < mutation_rate:
-            chromosome[i] = np.random.randint(0, 256)
-    return chromosome
+        self.frame = ttk.Frame(root, padding="10 10 10 10", style='TFrame')  
+        self.frame.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
 
-x_data = np.array(cv2.imread("./batman2.png"))
-chromosome = x_data.flatten()
-population = np.random.randint(0, 256, (100, len(chromosome)))
-fitness = {}
-mutation_rate = 0.01    
+        self.heading_label = ttk.Label(self.frame, text="Image Reconstruction", font=('Helvetica', 16, 'bold'), background='#f0f0f0')
+        self.heading_label.grid(row=0, column=0, columnspan=2, pady=10)
 
-for j in range(300):
-    for i in range(len(population)):
-        fitness[i] = Fitness(population[i], chromosome)
-    best_chromosomes = sorted(fitness, key=fitness.get)[:2]
-    new_chrom1, new_chrom2 = Crossover(population[best_chromosomes[0]], population[best_chromosomes[1]])
-    new_chrom1 = Mutation(new_chrom1, mutation_rate)
-    new_chrom2 = Mutation(new_chrom2, mutation_rate)
-    population[sorted(fitness, key=fitness.get)[np.random.randint(0, 100)]] = new_chrom1
-    population[sorted(fitness, key=fitness.get)[np.random.randint(0, 100)]] = new_chrom2
+        self.upload_button = ttk.Button(self.frame, text="Upload Image", command=self.upload_image)
+        self.upload_button.grid(row=1, column=0, columnspan=2, pady=20)
 
-new_image = population[sorted(fitness, key=fitness.get)[0]].reshape(x_data.shape)
-cv2.imwrite("new_image.png", new_image)
+        self.original_image_label = ttk.Label(self.frame, text="Original Image", background='#f0f0f0')
+        self.original_image_label.grid(row=2, column=0, pady=10)
+        self.original_image_canvas = tk.Canvas(self.frame, width=256, height=256, bg='white')
+        self.original_image_canvas.grid(row=3, column=0, pady=10)
+
+        self.generated_image_label = ttk.Label(self.frame, text="Generated Image", background='#f0f0f0')
+        self.generated_image_label.grid(row=2, column=1, pady=10)
+        self.generated_image_canvas = tk.Canvas(self.frame, width=256, height=256, bg='white')
+        self.generated_image_canvas.grid(row=3, column=1, pady=10)
+
+        self.frame.columnconfigure(0, weight=1)
+        self.frame.columnconfigure(1, weight=1)
+
+        self.original_image = None
+        self.generated_image = None
+
+    def upload_image(self):
+        file_path = filedialog.askopenfilename(filetypes=[("Image files", "*.jpg *.jpeg *.png")])
+        if file_path:
+            self.original_image = Image.open(file_path)
+            self.display_image(self.original_image, self.original_image_canvas, 256, 256)
+
+            target_image = cv2.imread(file_path, cv2.IMREAD_COLOR)
+            target_image = cv2.resize(target_image, (64, 64))
+            self.run_genetic_algorithm(target_image)
+
+    def run_genetic_algorithm(self, target_image):
+        self.gen_algorithm = genetic_algorithm(target_image)
+        self.update_generated_image()
+
+    def update_generated_image(self):
+        try:
+            next_image = next(self.gen_algorithm)
+            next_image = cv2.cvtColor(next_image, cv2.COLOR_BGR2RGB)
+            next_image = Image.fromarray(next_image)
+            self.display_image(next_image, self.generated_image_canvas, 256, 256)
+            self.root.after(100, self.update_generated_image)
+        except StopIteration:
+            pass
+
+    def display_image(self, image, canvas, display_width, display_height):
+        image = image.resize((display_width, display_height), Image.LANCZOS)
+        photo = ImageTk.PhotoImage(image)
+        canvas.create_image(0, 0, anchor=tk.NW, image=photo)
+        canvas.image = photo
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = ImageApp(root)
+    root.mainloop()
