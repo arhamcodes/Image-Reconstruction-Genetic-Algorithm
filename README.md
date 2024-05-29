@@ -39,3 +39,6 @@ To run the program, use the following command:
 ```
 python3 main.py
 ```
+## Examples
+![Example Image](https://github.com/arhamcodes/Image-Reconstruction-Genetic-Algorithm/blob/main/example-2.png)
+![Example Image](https://github.com/arhamcodes/Image-Reconstruction-Genetic-Algorithm/blob/main/example.png)
