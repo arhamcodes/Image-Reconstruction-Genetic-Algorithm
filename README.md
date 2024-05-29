@@ -1,6 +1,6 @@
 # Image Reconstruction using Genetic Algorithm
 
-## Prerequisites
+## Prerequisites (Ubuntu Guide)
 
 Make sure you have Python's Tkinter installed. If not, you can install it using the following command:
 

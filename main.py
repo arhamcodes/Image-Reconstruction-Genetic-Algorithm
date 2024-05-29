@@ -49,7 +49,7 @@ class ImageApp:
             self.display_image(self.original_image, self.original_image_canvas, 256, 256)
 
             target_image = cv2.imread(file_path, cv2.IMREAD_COLOR)
-            target_image = cv2.resize(target_image, (64, 64))
+            target_image = cv2.resize(target_image, (96, 96))
             self.run_genetic_algorithm(target_image)
 
     def run_genetic_algorithm(self, target_image):

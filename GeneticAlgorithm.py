@@ -55,51 +55,6 @@ def introduce_random_immigrants(population, shape, num_immigrants):
     for _ in range(num_immigrants):
         population[random.randint(0, len(population) - 1)] = create_individual(shape)
 
-#def genetic_algorithm(target_image, pop_size=5, initial_mutation_rate=0.0001, final_mutation_rate=0.0001, elitism=3):
-#    population = create_population(pop_size, target_image.shape)
-#    best_fitness = float('inf')
-#    best_individual = None
-#    generation = 0
-#
-#    while best_fitness > 5: 
-#        fitnesses = [calculate_fitness(ind, target_image) for ind in population]
-#
-#        sorted_population = [ind for _, ind in sorted(zip(fitnesses, population), key=lambda x: x[0])]
-#
-#        new_population = sorted_population[:elitism]
-#
-#        while len(new_population) < pop_size:
-#            parent1 = tournament_selection(population, fitnesses)
-#            parent2 = tournament_selection(population, fitnesses)
-#            child = crossover(parent1, parent2)
-#            
-#            mutation_rate = calculate_mutation_rate(initial_mutation_rate, final_mutation_rate, generation, pop_size)
-#            
-#            child = mutate(child, mutation_rate)
-#            new_population.append(child)
-#        
-#        if generation % 50 == 0:
-#            introduce_random_immigrants(new_population, target_image.shape, num_immigrants=pop_size // 10)
-#
-#        population = new_population
-#
-#        current_best_fitness = min(fitnesses)
-#        if current_best_fitness < best_fitness:
-#            best_fitness = current_best_fitness
-#            best_individual = population[fitnesses.index(current_best_fitness)]
-#
-#        if generation % 100 == 0:
-#            print(f'Generation {generation}, Best Fitness: {best_fitness}')
-#            #*****************UNCOMMIT FOR VISUALIZATION IN SEPERATE WINDOW REAL TIME********************
-#            #cv2.namedWindow('Reconstructed Image', cv2.WINDOW_NORMAL)
-#            #cv2.resizeWindow('Reconstructed Image', 512, 512)
-#            #cv2.imshow('Reconstructed Image', best_individual)
-#            #if cv2.waitKey(1) & 0xFF == ord('q'):
-#            #    break
-#        
-#        generation += 1
-#
-#    return best_individual
 
 def genetic_algorithm(target_image, pop_size=5, initial_mutation_rate=0.0001, final_mutation_rate=0.0001, elitism=3):
     population = create_population(pop_size, target_image.shape)
@@ -136,8 +91,14 @@ def genetic_algorithm(target_image, pop_size=5, initial_mutation_rate=0.0001, fi
 
         if generation % 100 == 0:
             print(f'Generation {generation}, Best Fitness: {best_fitness}')
+#           print(f'Generation {generation}, Best Fitness: {best_fitness}')
+#           #*****************UNCOMMIT FOR VISUALIZATION IN SEPERATE WINDOW REAL TIME********************
+#           #cv2.namedWindow('Reconstructed Image', cv2.WINDOW_NORMAL)
+#           #cv2.resizeWindow('Reconstructed Image', 512, 512)
+#           #cv2.imshow('Reconstructed Image', best_individual)
+#           #if cv2.waitKey(1) & 0xFF == ord('q'):
 
-        if generation % 2500 == 0:    
+        if generation % 5000 == 0: #edit to update image every n generations
             yield best_individual
 
         generation += 1
