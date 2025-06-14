@@ -1,5 +1,9 @@
 # Image Reconstruction using Genetic Algorithm
 
+## Examples
+![Example Image](https://github.com/arhamcodes/Image-Reconstruction-Genetic-Algorithm/blob/main/example-2.png)
+![Example Image](https://github.com/arhamcodes/Image-Reconstruction-Genetic-Algorithm/blob/main/example.png)
+
 ## Prerequisites (Ubuntu Guide)
 
 Make sure you have Python's Tkinter installed. If not, you can install it using the following command:
@@ -39,6 +43,3 @@ To run the program, use the following command:
 ```
 python3 main.py
 ```
-## Examples
-![Example Image](https://github.com/arhamcodes/Image-Reconstruction-Genetic-Algorithm/blob/main/example-2.png)
-![Example Image](https://github.com/arhamcodes/Image-Reconstruction-Genetic-Algorithm/blob/main/example.png)
